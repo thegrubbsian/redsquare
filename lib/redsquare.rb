@@ -1,5 +1,6 @@
 require "redsquare/version"
-
-module Redsquare
-  # Your code goes here...
-end
+require "active_support/all"
+require "sinatra"
+require "redis"
+require "json"
+require "redsquare/application/app"

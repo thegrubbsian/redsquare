@@ -11,43 +11,45 @@ describe Redsquare::App do
     JSON.parse(last_response.body)["result"]
   end
 
-  before do
-
-    redis = Redis.current
-
-    # String
-    redis.set "string_a", "bar"
-    redis.set "string_b", "baz"
-
-    # Sets
-    redis.sadd "set_a", "a"
-    redis.sadd "set_a", "b"
-    redis.sadd "set_a", "c"
-
-    redis.sadd "set_b", "b"
-    redis.sadd "set_b", "c"
-    redis.sadd "set_b", "d"
-
-    # Lists
-    redis.rpush "list_a", "a"
-    redis.rpush "list_a", "b"
-    redis.rpush "list_a", "c"
-
-    redis.rpush "list_b", "b"
-    redis.rpush "list_b", "c"
-    redis.rpush "list_b", "d"
-
-    # Expiring key
-    redis.set "expire", "foo"
-    redis.expireat "expireat", 1555555555005
-
-    # Hashes
-    redis.hset "hash_a", "a", 1
-    redis.hset "hash_a", "b", 2.00
-    redis.hset "hash_a", "c", "foobar"
+  def redis
+    Redis.current
   end
 
   describe "GET commands" do
+
+    before do
+
+      # String
+      redis.set "string_a", "bar"
+      redis.set "string_b", "baz"
+
+      # Sets
+      redis.sadd "set_a", "a"
+      redis.sadd "set_a", "b"
+      redis.sadd "set_a", "c"
+
+      redis.sadd "set_b", "b"
+      redis.sadd "set_b", "c"
+      redis.sadd "set_b", "d"
+
+      # Lists
+      redis.rpush "list_a", "a"
+      redis.rpush "list_a", "b"
+      redis.rpush "list_a", "c"
+
+      redis.rpush "list_b", "b"
+      redis.rpush "list_b", "c"
+      redis.rpush "list_b", "d"
+
+      # Expiring key
+      redis.set "expire", "foo"
+      redis.expireat "expireat", 1555555555005
+
+      # Hashes
+      redis.hset "hash_a", "a", 1
+      redis.hset "hash_a", "b", 2.00
+      redis.hset "hash_a", "c", "foobar"
+    end
 
     describe "returns the correct response for" do
 
@@ -151,6 +153,20 @@ describe Redsquare::App do
       it "dbsize" do
         get "/dbsize"
         expect(result).to eq 8
+      end
+
+    end
+
+  end
+
+  describe "POST commands" do
+
+    describe "returns the correct response for" do
+
+      it "setrange" do
+        redis.set "string_a", "Hello World"
+        post "/setrange", args: ["string_a", 6, "Redis"]
+        expect(redis.get "string_a").to eq "Hello Redis"
       end
 
     end

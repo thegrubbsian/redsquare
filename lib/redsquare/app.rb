@@ -66,14 +66,13 @@ module Redsquare
       :getbit,
       :get,
       :exists,
-      :dump,
       :dbsize
     ]
 
     POST_COMMANDS.each do |command|
-      post "/#{command}/?*" do
+      post "/#{command}" do
         content_type :json
-        args = params[:splat].select { |a| a.present? }.compact
+        args = params[:args]
         val = Redis.current.send command, *args
         { result: val }.to_json
       end
@@ -82,10 +81,16 @@ module Redsquare
     GET_COMMANDS.each do |command|
       get "/#{command}/?*" do
         content_type :json
-        args = params[:splat][0].split("/")
+        args = params[:splat][0].split("/").map { |a| try_to_i a }
+        #require "pry"; binding.pry
         val = Redis.current.send command, *args
         { result: val }.to_json
       end
+    end
+
+    def try_to_i(str)
+      is_int = str.to_i.to_s == str
+      is_int ? str.to_i : str
     end
 
   end

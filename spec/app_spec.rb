@@ -169,6 +169,27 @@ describe Redsquare::App do
         expect(redis.get "string_a").to eq "Hello Redis"
       end
 
+      it "setnx" do
+        post "/setnx", args: ["bar", "baz"]
+        expect(redis.get "bar").to eq "baz"
+      end
+
+      it "set" do
+        post "/set", args: ["string_a", "foo"]
+        expect(redis.get "string_a").to eq "foo"
+      end
+
+      it "sdiffstore" do
+        redis.sadd "list_a", "a"
+        redis.sadd "list_a", "b"
+        redis.sadd "list_a", "c"
+        redis.sadd "list_b", "b"
+        redis.sadd "list_b", "c"
+        redis.sadd "list_b", "d"
+        post "/sdiffstore", args: ["list_c", "list_a", "list_b"]
+        expect(redis.smembers "list_c").to eq ["a"]
+      end
+
     end
 
   end

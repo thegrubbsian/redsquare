@@ -2,6 +2,10 @@ module Redsquare
   class App < Sinatra::Base
 
     POST_COMMANDS = [
+      :sunionstore,
+      :srem,
+      :spop,
+      :smove,
       :setrange,
       :setnx,
       :setbit,
@@ -45,6 +49,10 @@ module Redsquare
     ]
 
     GET_COMMANDS = [
+      :sunion,
+      :srandmember,
+      :smembers,
+      :sismember,
       :sinter,
       :sdiff,
       :scard,

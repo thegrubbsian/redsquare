@@ -1,12 +1,16 @@
 #!/usr/bin/env ruby
 
-begin
+def run
   require "redsquare"
+  require File.expand_path(ARGV[0]) if ARGV[0]
   Redsquare::App.run!
+end
+
+begin
+  run
 rescue LoadError => e
   require "rubygems"
   path = File.expand_path "../../lib", __FILE__
   $:.unshift(path) if File.directory?(path) && !$:.include?(path)
-  require "redsquare"
-  Redsquare::App.run!
+  run
 end

@@ -81,8 +81,7 @@ module Redsquare
       post "/#{command}" do
         content_type :json
         args = params[:args].map { |a| try_to_i a }
-        #require "pry"; binding.pry
-        val = Redis.current.send command, *args
+        val = Config.redis.send command, *args
         { result: val }.to_json
       end
     end
@@ -91,7 +90,7 @@ module Redsquare
       get "/#{command}/?*" do
         content_type :json
         args = params[:splat][0].split("/").map { |a| try_to_i a }
-        val = Redis.current.send command, *args
+        val = Config.redis.send command, *args
         { result: val }.to_json
       end
     end

@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.version       = Redsquare::VERSION
   spec.authors       = ["JC Grubbs"]
   spec.email         = ["jc@devmynd.com"]
-  spec.description   = %q{A mountable/standalone JSON interface to Redis.}
-  spec.summary       = %q{A mountable/standalone JSON interface to Redis.}
+  spec.description   = %q{A mountable/standalone HTTP interface to Redis.}
+  spec.summary       = %q{A mountable/standalone HTTP interface to Redis.}
   spec.homepage      = "http://github.com/thegrubbsian/redsquare"
   spec.license       = "MIT"
 

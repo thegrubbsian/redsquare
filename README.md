@@ -43,9 +43,9 @@ end
 Simply run Redsquare from the command line.
 
 ```
-redsquare
+~> redsquare
 
-redsquare ~/some/path/to/redsquare_config.rb
+~> redsquare ~/some/path/to/redsquare_config.rb
 ```
 
 ### Mounting Within a Rails App

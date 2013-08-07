@@ -35,6 +35,10 @@ Redsquare.configure do |config|
   # pass a config hash that will be passed to Redis.new
   config.redis = { :host => 'localhost', :port => 6379 }
 
+  # indicate redis methods that should not be supported, calls
+  # to these methods results in a 404
+  config.restricted_methods = [:keys, :dbsize]
+
 end
 ```
 

@@ -194,4 +194,18 @@ describe Redsquare::App do
 
   end
 
+  describe "config" do
+
+    describe "restricted_methods" do
+
+      it "prevents the method from being exposed" do
+        Redsquare::Config.restricted_methods = [:keys]
+        post "/keys"
+        expect(last_response.status).to eq 404
+      end
+
+    end
+
+  end
+
 end

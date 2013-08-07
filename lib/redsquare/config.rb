@@ -14,5 +14,13 @@ module Redsquare
       @redis ||= Redis.current
     end
 
+    def restricted_methods
+      @restricted_methods || []
+    end
+
+    def restricted_methods=(methods)
+      @restricted_methods = methods
+    end
+
   end
 end

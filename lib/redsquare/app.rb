@@ -79,6 +79,7 @@ module Redsquare
 
     POST_COMMANDS.each do |command|
       post "/#{command}" do
+        return 404 if Config.restricted_methods.include?(command)
         content_type :json
         args = params[:args].map { |a| try_to_i a }
         val = Config.redis.send command, *args
@@ -88,6 +89,7 @@ module Redsquare
 
     GET_COMMANDS.each do |command|
       get "/#{command}/?*" do
+        return 404 if Config.restricted_methods.include?(command)
         content_type :json
         args = params[:splat][0].split("/").map { |a| try_to_i a }
         val = Config.redis.send command, *args

@@ -8,7 +8,7 @@ require "redsquare/app"
 
 module Redsquare
 
-  def configure
+  def self.configure
     Config
   end
 
